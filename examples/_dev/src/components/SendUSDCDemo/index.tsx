@@ -7,7 +7,7 @@ import {
 import { parseUnits } from '@ethersproject/units';
 
 const USDC_CONTRACT_ADDRESS = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48';
-const RECIPIENT_ADDRESS = '0xb29c23a84f84625Ae7ec7A5239386d400c67Dcb4';
+const RECIPIENT_ADDRESS = '0x4336Eb76E1ADa43b02d933Ac40499C584f1D60c9';
 const USDC_AMOUNT = '0.01';
 const USDC_DECIMALS = 6;
 
