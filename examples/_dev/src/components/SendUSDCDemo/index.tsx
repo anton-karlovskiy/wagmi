@@ -1,4 +1,3 @@
-// ray test touch <
 import {
   useContractWrite,
   usePrepareContractWrite,
@@ -58,4 +57,3 @@ const SendUSDCDemo = () => {
 };
 
 export default SendUSDCDemo;
-// ray test touch >
