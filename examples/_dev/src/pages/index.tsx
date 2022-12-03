@@ -8,8 +8,8 @@ const Page = () => {
   return (
     <>
       <Connect />
-      <Account />
       <NetworkSwitcher />
+      <Account />
     </>
   )
 }

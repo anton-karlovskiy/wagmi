@@ -18,6 +18,7 @@ import { Token } from './Token';
 import { WriteContract } from './WriteContract';
 import { WriteContractPrepared } from './WriteContractPrepared';
 import SendNativeTokenDemo from './SendNativeTokenDemo';
+import SendUSDCDemo from './SendUSDCDemo';
 
 const Account = () => {
   const isMounted = useIsMounted();
@@ -77,7 +78,10 @@ const Account = () => {
         <Token />
       </>
       <>
+        <h4>Send Native Token</h4>
         <SendNativeTokenDemo />
+        <h4>Send USDC</h4>
+        <SendUSDCDemo />
       </>
     </div>
   )
