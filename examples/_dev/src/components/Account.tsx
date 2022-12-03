@@ -7,7 +7,7 @@ import { ReadContract } from './ReadContract'
 import { ReadContracts } from './ReadContracts'
 import { ReadContractsInfinite } from './ReadContractsInfinite'
 import { SendTransaction } from './SendTransaction'
-import { SendTransactionPrepared } from './SendTransactionPrepared'
+import SendTransactionPrepared from './SendTransactionPrepared';
 import { SignMessage } from './SignMessage'
 import { Token } from './Token'
 import { WriteContract } from './WriteContract'
@@ -46,50 +46,40 @@ export const Account = () => {
         )}
       </div>
 
-      {true && (
-        <>
-          {false && (
-            <>
-              <h4>Balance</h4>
-              <Balance />
+      <>
+        <h4>Balance</h4>
+        <Balance />
 
-              <h4>Block Number</h4>
-              <BlockNumber />
+        <h4>Block Number</h4>
+        <BlockNumber />
 
-              <h4>Send Transaction</h4>
-              <SendTransaction />
+        <h4>Send Transaction</h4>
+        <SendTransaction />
 
-              <h4>Send Transaction Prepared</h4>
-              <SendTransactionPrepared />
-            </>
-          )}
+        <h4>Send Transaction Prepared</h4>
+        <SendTransactionPrepared />
 
-          <h4>Read Contract</h4>
-          <ReadContract />
+        <h4>Read Contract</h4>
+        <ReadContract />
 
-          <h4>Read Contracts</h4>
-          <ReadContracts />
+        <h4>Read Contracts</h4>
+        <ReadContracts />
 
-          <h4>Read Contracts Infinite</h4>
-          <ReadContractsInfinite />
+        <h4>Read Contracts Infinite</h4>
+        <ReadContractsInfinite />
 
-          <h4>Write Contract</h4>
-          <WriteContract />
+        <h4>Write Contract</h4>
+        <WriteContract />
 
-          <h4>Write Contract Prepared</h4>
-          <WriteContractPrepared />
+        <h4>Write Contract Prepared</h4>
+        <WriteContractPrepared />
 
-          {false && (
-            <>
-              <h4>Sign Message</h4>
-              <SignMessage />
+        <h4>Sign Message</h4>
+        <SignMessage />
 
-              <h4>Token</h4>
-              <Token />
-            </>
-          )}
-        </>
-      )}
+        <h4>Token</h4>
+        <Token />
+      </>
     </div>
   )
 }

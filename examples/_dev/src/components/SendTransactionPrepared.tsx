@@ -1,29 +1,45 @@
-import { BigNumber } from 'ethers'
-import { usePrepareSendTransaction, useSendTransaction } from 'wagmi'
+import {
+  usePrepareSendTransaction,
+  useSendTransaction,
+  useWaitForTransaction
+} from 'wagmi';
+import { parseEther } from '@ethersproject/units';
 
-export const SendTransactionPrepared = () => {
+const SendTransactionPrepared = () => {
   const { config } = usePrepareSendTransaction({
-    request: { to: 'moxey.eth', value: BigNumber.from('10000000000000000') },
-  })
-  const { data, isIdle, isLoading, isSuccess, isError, sendTransaction } =
-    useSendTransaction(config)
+    request: {
+      to: '0xb29c23a84f84625Ae7ec7A5239386d400c67Dcb4',
+      value: parseEther('0.0001')
+    }
+  });
 
-  if (isLoading) return <div>Check Wallet</div>
+  const {
+    data,
+    // isIdle,
+    // isLoading,
+    // isSuccess,
+    isError,
+    sendTransaction
+  } = useSendTransaction(config);
 
-  if (isIdle)
-    return (
-      <button
-        disabled={isLoading || !sendTransaction}
-        onClick={() => sendTransaction?.()}
-      >
-        Send Transaction
-      </button>
-    )
+  const {
+    isLoading,
+    isSuccess
+  } = useWaitForTransaction({
+    hash: data?.hash
+  });
 
   return (
     <div>
+      <button
+        disabled={isLoading || !sendTransaction}
+        onClick={() => sendTransaction?.()}>
+        {isLoading ? 'Sending...' : 'Send'}
+      </button>
       {isSuccess && <div>Transaction: {JSON.stringify(data)}</div>}
       {isError && <div>Error sending transaction</div>}
     </div>
   )
 }
+
+export default SendTransactionPrepared;
