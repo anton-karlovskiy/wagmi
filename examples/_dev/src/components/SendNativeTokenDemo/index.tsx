@@ -5,7 +5,7 @@ import {
 } from 'wagmi';
 import { parseEther } from '@ethersproject/units';
 
-const SendTransactionPrepared = () => {
+const SendNativeTokenDemo = () => {
   const { config } = usePrepareSendTransaction({
     request: {
       to: '0xb29c23a84f84625Ae7ec7A5239386d400c67Dcb4',
@@ -42,4 +42,4 @@ const SendTransactionPrepared = () => {
   )
 }
 
-export default SendTransactionPrepared;
+export default SendNativeTokenDemo;
