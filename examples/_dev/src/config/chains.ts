@@ -1,4 +1,3 @@
-// ray test touch <
 import type { Chain } from 'wagmi';
 
 const avalanche: Chain = {
@@ -27,4 +26,3 @@ const avalanche: Chain = {
 };
 
 export { avalanche };
-// ray test touch >

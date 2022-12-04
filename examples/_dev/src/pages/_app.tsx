@@ -18,9 +18,7 @@ import { infuraProvider } from 'wagmi/providers/infura'
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import { publicProvider } from 'wagmi/providers/public'
 
-// ray test touch <
 import { avalanche } from '../config/chains';
-// ray test touch >
 
 const { chains, provider, webSocketProvider } = configureChains(
   [...defaultChains, chain.optimism, avalanche],
