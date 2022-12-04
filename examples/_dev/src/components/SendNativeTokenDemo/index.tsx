@@ -5,7 +5,7 @@ import {
 } from 'wagmi';
 import { parseEther } from '@ethersproject/units';
 
-const RECIPIENT_ADDRESS = '0x4336Eb76E1ADa43b02d933Ac40499C584f1D60c9';
+const RECIPIENT_ADDRESS = '0x0E63934079EDA886822CA589e0e533ea7440948E';
 const NATIVE_TOKEN_AMOUNT = '0.0001';
 
 // MEMO: inspired by https://wagmi.sh/examples/send-transaction
