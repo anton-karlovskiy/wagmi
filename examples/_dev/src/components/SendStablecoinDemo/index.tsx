@@ -15,7 +15,7 @@ const ETHEREUM_USDT_CONTRACT_ADDRESS = '0xdAC17F958D2ee523a2206206994597C13D831e
 const AVALANCHE_USDC_CONTRACT_ADDRESS = '0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E';
 const RECIPIENT_ADDRESS = '0x0E63934079EDA886822CA589e0e533ea7440948E';
 const USDC_AMOUNT = '0.01';
-const USDC_DECIMALS = 6;
+const USDC_USDT_DECIMALS = 6;
 
 enum Stablecoin {
   USDC = 'USDC',
@@ -53,7 +53,7 @@ const SendStablecoinDemo = () => {
     functionName: 'transfer',
     args: [
       RECIPIENT_ADDRESS,
-      parseUnits(USDC_AMOUNT, USDC_DECIMALS)
+      parseUnits(USDC_AMOUNT, USDC_USDT_DECIMALS)
     ],
     enabled: !!stablecoinContractAddress
   });
