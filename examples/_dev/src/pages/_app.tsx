@@ -7,18 +7,25 @@ import {
   createClient,
   defaultChains,
 } from 'wagmi'
-
 import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
-
 import { alchemyProvider } from 'wagmi/providers/alchemy'
 import { infuraProvider } from 'wagmi/providers/infura'
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import { publicProvider } from 'wagmi/providers/public'
+// ray test touch <
+import {
+  QueryClient,
+  QueryClientProvider
+} from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+// ray test touch >
 
 import { avalanche } from '../config/chains';
+
+const queryClient = new QueryClient();
 
 const { chains, provider, webSocketProvider } = configureChains(
   [...defaultChains, chain.optimism, avalanche],
@@ -82,10 +89,12 @@ const App = ({ Component, pageProps }: AppProps) => {
       <NextHead>
         <title>wagmi</title>
       </NextHead>
-
-      <WagmiConfig client={client}>
-        <Component {...pageProps} />
-      </WagmiConfig>
+      <QueryClientProvider client={queryClient}>
+        <WagmiConfig client={client}>
+          <Component {...pageProps} />
+        </WagmiConfig>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
     </>
   )
 }
