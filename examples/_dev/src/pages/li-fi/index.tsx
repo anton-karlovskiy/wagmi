@@ -12,8 +12,8 @@ const LiFi = () => {
   const isMounted = useIsMounted();
 
   const account = useAccount({
-    onConnect: (data) => console.log('connected', data),
-    onDisconnect: () => console.log('disconnected')
+    onConnect: (data) => console.log('[onConnect] connected data => ', data),
+    onDisconnect: () => console.log('[onDisconnect] disconnected')
   });
 
   const disconnect = useDisconnect();
