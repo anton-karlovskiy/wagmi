@@ -2,7 +2,7 @@ import { BigNumber } from 'ethers'
 import { useState } from 'react'
 import { useContractWrite } from 'wagmi'
 
-import { anvAbi } from './anv-abi'
+import { anvAbi } from '../../abis/anv-abi'
 
 export const WriteContract = () => {
   const { write, data, error, isLoading, isError, isSuccess } =

@@ -5,7 +5,7 @@ import {
   useEnsName
 } from 'wagmi';
 
-import { useIsMounted } from '../hooks';
+import { useIsMounted } from '../../hooks';
 import { Balance } from './Balance';
 import { BlockNumber } from './BlockNumber';
 import { ReadContract } from './ReadContract';
@@ -20,7 +20,7 @@ import { WriteContractPrepared } from './WriteContractPrepared';
 import SendNativeTokenDemo from './SendNativeTokenDemo';
 import SendStablecoinDemo from './SendStablecoinDemo';
 
-const Account = () => {
+const Examples = () => {
   const isMounted = useIsMounted();
   const account = useAccount({
     onConnect: (data) => console.log('connected', data),
@@ -87,4 +87,4 @@ const Account = () => {
   )
 }
 
-export { Account };
+export default Examples;

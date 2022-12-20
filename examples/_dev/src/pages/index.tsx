@@ -1,8 +1,6 @@
-import {
-  Account,
-  Connect,
-  NetworkSwitcher
-} from '../components';
+import Examples from '../components/Examples';
+import { Connect } from '../components/Connect';
+import { NetworkSwitcher } from '../components/NetworkSwitcher';
 import { useIsMounted } from '../hooks';
 
 const Home = () => {
@@ -14,7 +12,7 @@ const Home = () => {
     <>
       <Connect />
       <NetworkSwitcher />
-      <Account />
+      <Examples />
     </>
   );
 };
