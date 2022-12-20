@@ -15,13 +15,11 @@ import { alchemyProvider } from 'wagmi/providers/alchemy'
 import { infuraProvider } from 'wagmi/providers/infura'
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import { publicProvider } from 'wagmi/providers/public'
-// ray test touch <
 import {
   QueryClient,
   QueryClientProvider
 } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-// ray test touch >
 
 import { avalanche } from '../config/chains';
 

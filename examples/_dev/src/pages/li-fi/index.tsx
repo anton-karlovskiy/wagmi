@@ -11,7 +11,6 @@ import NetworkSwitcher from 'src/components/NetworkSwitcher';
 
 import { useIsMounted } from 'src/hooks';
 
-// ray test touch <
 const FROM_CHAIN = 'DAI';
 const FROM_TOKEN = 'USDC';
 const TO_CHAIN = 'POL';
@@ -39,7 +38,6 @@ const getQuote = async (
 
   return result.data;
 }
-// ray test touch >
 
 const LiFi = () => {
   const isMounted = useIsMounted();
@@ -51,9 +49,7 @@ const LiFi = () => {
 
   const disconnect = useDisconnect();
 
-  // ray test touch <
   React.useEffect(() => {
-    if (!account) return;
     if (account.address === undefined) return;
 
     (async () => {
@@ -65,10 +61,11 @@ const LiFi = () => {
         FROM_AMOUNT,
         account.address as Address
       );
+      // ray test touch <
       console.log('ray : ***** quoteData => ', quoteData);
+      // ray test touch >
     })();
   }, [account]);
-  // ray test touch >
 
   if (!isMounted) return null;
 
