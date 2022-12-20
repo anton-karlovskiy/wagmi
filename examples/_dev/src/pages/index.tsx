@@ -1,17 +1,22 @@
-import { Account, Connect, NetworkSwitcher } from '../components'
-import { useIsMounted } from '../hooks'
+import {
+  Account,
+  Connect,
+  NetworkSwitcher
+} from '../components';
+import { useIsMounted } from '../hooks';
 
-const Page = () => {
-  const isMounted = useIsMounted()
+const Home = () => {
+  const isMounted = useIsMounted();
 
-  if (!isMounted) return null
+  if (!isMounted) return null;
+
   return (
     <>
       <Connect />
       <NetworkSwitcher />
       <Account />
     </>
-  )
-}
+  );
+};
 
-export default Page
+export default Home;
