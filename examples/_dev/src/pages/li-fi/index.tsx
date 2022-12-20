@@ -3,9 +3,7 @@ import {
   useDisconnect
 } from 'wagmi';
 import axios from 'axios'; // TODO: use `fetch` API
-// ray test touch <
 import { useQuery } from '@tanstack/react-query';
-// ray test touch >
 
 import Connect from 'src/components/Connect';
 import NetworkSwitcher from 'src/components/NetworkSwitcher';
@@ -17,9 +15,7 @@ const TO_CHAIN = 'POL';
 const TO_TOKEN = 'USDC';
 const FROM_AMOUNT = '1000000';
 
-// ray test touch <
 const QUOTE_API_ENDPOINT = 'https://li.quest/v1/quote';
-// ray test touch >
 
 const LiFi = () => {
   const isMounted = useIsMounted();
@@ -31,7 +27,6 @@ const LiFi = () => {
 
   const disconnect = useDisconnect();
 
-  // ray test touch <
   const {
     isLoading,
     error,
@@ -57,16 +52,12 @@ const LiFi = () => {
         .then((res) => res.data),
       enabled: !!account.address
   });
-  console.log('ray : ***** data => ', data);
-  // ray test touch >
 
   if (!isMounted) return null;
 
-  // ray test touch <
   if (isLoading) return <div>Loading...</div>;
 
   if (error) return 'An error has occurred: ' + (error instanceof Error ? error.message : String(error));
-  // ray test touch >
 
   return (
     <>
@@ -82,9 +73,7 @@ const LiFi = () => {
           </div>
         )}
       </div>
-      {/* ray test touch < */}
       <div>{isFetching ? 'Updating...' : ''}</div>
-      {/* ray test touch > */}
     </>
   );
 };
