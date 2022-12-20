@@ -1,14 +1,14 @@
-import * as React from 'react';
 import {
-  Address,
   useAccount,
   useDisconnect
 } from 'wagmi';
 import axios from 'axios'; // TODO: use `fetch` API
+// ray test touch <
+import { useQuery } from '@tanstack/react-query';
+// ray test touch >
 
 import Connect from 'src/components/Connect';
 import NetworkSwitcher from 'src/components/NetworkSwitcher';
-
 import { useIsMounted } from 'src/hooks';
 
 const FROM_CHAIN = 'DAI';
@@ -17,27 +17,9 @@ const TO_CHAIN = 'POL';
 const TO_TOKEN = 'USDC';
 const FROM_AMOUNT = '1000000';
 
-const getQuote = async (
-  fromChain: string,
-  toChain: string,
-  fromToken: string,
-  toToken: string,
-  fromAmount: string,
-  fromAddress: Address
-) => {
-  const result = await axios.get('https://li.quest/v1/quote', {
-    params: {
-      fromChain,
-      toChain,
-      fromToken,
-      toToken,
-      fromAmount,
-      fromAddress
-    }
-  });
-
-  return result.data;
-}
+// ray test touch <
+const QUOTE_API_ENDPOINT = 'https://li.quest/v1/quote';
+// ray test touch >
 
 const LiFi = () => {
   const isMounted = useIsMounted();
@@ -49,25 +31,42 @@ const LiFi = () => {
 
   const disconnect = useDisconnect();
 
-  React.useEffect(() => {
-    if (account.address === undefined) return;
-
-    (async () => {
-      const quoteData = await getQuote(
-        FROM_CHAIN,
-        TO_CHAIN,
-        FROM_TOKEN,
-        TO_TOKEN,
-        FROM_AMOUNT,
-        account.address as Address
-      );
-      // ray test touch <
-      console.log('ray : ***** quoteData => ', quoteData);
-      // ray test touch >
-    })();
-  }, [account]);
+  // ray test touch <
+  const {
+    isLoading,
+    error,
+    data,
+    isFetching
+  } = useQuery({
+    queryKey: [
+      QUOTE_API_ENDPOINT,
+      account.address
+    ],
+    queryFn: () =>
+      axios
+        .get(QUOTE_API_ENDPOINT, {
+          params: {
+            fromChain: FROM_CHAIN,
+            toChain: TO_CHAIN,
+            fromToken: FROM_TOKEN,
+            toToken: TO_TOKEN,
+            fromAmount: FROM_AMOUNT,
+            fromAddress: account.address
+          }
+        })
+        .then((res) => res.data),
+      enabled: !!account.address
+  });
+  console.log('ray : ***** data => ', data);
+  // ray test touch >
 
   if (!isMounted) return null;
+
+  // ray test touch <
+  if (isLoading) return <div>Loading...</div>;
+
+  if (error) return 'An error has occurred: ' + (error instanceof Error ? error.message : String(error));
+  // ray test touch >
 
   return (
     <>
@@ -83,6 +82,9 @@ const LiFi = () => {
           </div>
         )}
       </div>
+      {/* ray test touch < */}
+      <div>{isFetching ? 'Updating...' : ''}</div>
+      {/* ray test touch > */}
     </>
   );
 };
