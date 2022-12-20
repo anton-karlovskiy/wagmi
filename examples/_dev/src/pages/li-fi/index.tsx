@@ -1,7 +1,19 @@
 // ray test touch <
+import Connect from 'src/components/Connect';
+import NetworkSwitcher from 'src/components/NetworkSwitcher';
+
+import { useIsMounted } from 'src/hooks';
+
 const LiFi = () => {
+  const isMounted = useIsMounted();
+
+  if (!isMounted) return null;
+
   return (
-    <>LiFi</>
+    <>
+      <Connect />
+      <NetworkSwitcher />
+    </>
   );
 };
 

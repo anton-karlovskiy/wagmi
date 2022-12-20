@@ -2,7 +2,7 @@ import { useAccount, useConnect } from 'wagmi'
 
 import { useIsMounted } from '../hooks'
 
-export const Connect = () => {
+const Connect = () => {
   const isMounted = useIsMounted()
   const { connector, isReconnecting } = useAccount()
   const { connect, connectors, isLoading, error, pendingConnector } =
@@ -28,3 +28,5 @@ export const Connect = () => {
     </div>
   )
 }
+
+export default Connect
