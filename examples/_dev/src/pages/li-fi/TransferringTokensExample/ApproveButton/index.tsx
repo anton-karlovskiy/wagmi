@@ -2,17 +2,13 @@ import * as React from 'react';
 import {
   useContractRead, 
   Address,
-  // ray test touch <
   usePrepareContractWrite,
   useContractWrite,
   useWaitForTransaction
-  // ray test touch >
 } from 'wagmi';
 import { erc20ABI } from '@wagmi/core';
 import { BigNumber } from '@ethersproject/bignumber';
-// ray test touch <
 import { MaxUint256 } from '@ethersproject/constants';
-// ray test touch >
 
 import Button, { Props as ButtonProps } from 'src/components/Button';
 import { BLOCK_EXPLORER_TX_HASH_URL } from 'src/config/li-fi';
@@ -22,9 +18,7 @@ interface Props extends ButtonProps {
   spenderAddress: Address;
   tokenAddress: Address;
   amount: BigNumber;
-  // ray test touch <
   setApprovalRequired: React.Dispatch<React.SetStateAction<boolean>>;
-  // ray test touch >
 }
 
 const ApproveButton = ({
@@ -32,18 +26,14 @@ const ApproveButton = ({
   spenderAddress,
   tokenAddress,
   amount,
-  // ray test touch <
   setApprovalRequired,
-  // ray test touch >
   ...rest
 }: Props) => {
   const {
     error: allowanceError,
     isLoading: allowanceLoading,
     data: allowanceData,
-    // ray test touch <
     refetch: allowanceRefetch
-    // ray test touch >
   } = useContractRead({
     address: tokenAddress,
     abi: erc20ABI,
@@ -54,7 +44,6 @@ const ApproveButton = ({
     ],
   });
 
-  // ray test touch <
   const { config } = usePrepareContractWrite({
     address: tokenAddress,
     abi: erc20ABI,
@@ -70,12 +59,10 @@ const ApproveButton = ({
     write,
   } = useContractWrite({
     ...config,
-    // ray test touch <
     onSuccess(data) {
       console.log('[ApproveButton useContractWrite onSuccess] data =>', data);
       allowanceRefetch();
     }
-    // ray test touch >
   });
 
   const txHash = data?.hash;
@@ -105,7 +92,6 @@ const ApproveButton = ({
 
     write();
   };
-  // ray test touch >
 
   if (allowanceLoading) return <div>Loading...</div>;
 
@@ -122,17 +108,12 @@ const ApproveButton = ({
   return (
     <Button
       disabled={
-        // ray test touch <
         !write ||
         isLoading
-        // ray test touch >
       }
-      // ray test touch <
       onClick={handleApprove}
-      // ray test touch >
       {...rest}>
       {isLoading ? 'Approving...' : 'Approve'}
-      {/* ray test touch < */}
       {isSuccess && (
         <div>
           <p>
@@ -148,7 +129,6 @@ const ApproveButton = ({
           </div>
         </div>
       )}
-      {/* ray test touch > */}
     </Button>
   );
 };
