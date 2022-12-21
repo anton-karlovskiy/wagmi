@@ -8,9 +8,9 @@ import axios from 'axios'; // TODO: use `fetch` API
 import { useQuery } from '@tanstack/react-query';
 import { TransactionRequest } from '@ethersproject/providers';
 
-const FROM_CHAIN = 'ETH';
+const FROM_CHAIN = 'AVA';
 const FROM_TOKEN = 'USDC';
-const TO_CHAIN = 'AVA';
+const TO_CHAIN = 'ETH';
 const TO_TOKEN = 'USDC';
 const FROM_AMOUNT = '10000'; // 0.01 USDC
 
@@ -19,7 +19,8 @@ const LIFI_QUOTE_API_ENDPOINT = 'https://li.quest/v1/quote';
 const LIFI_STATUS_API_ENDPOINT = 'https://li.quest/v1/status';
 
 // const BLOCK_EXPLORER_TX_HASH_URL = 'https://blockscout.com/xdai/mainnet/tx';
-const BLOCK_EXPLORER_TX_HASH_URL = 'https://etherscan.io/tx';
+// const BLOCK_EXPLORER_TX_HASH_URL = 'https://etherscan.io/tx';
+const BLOCK_EXPLORER_TX_HASH_URL = 'https://snowtrace.io/tx';
 
 const TransferringTokensExample = () => {
   const account = useAccount();
