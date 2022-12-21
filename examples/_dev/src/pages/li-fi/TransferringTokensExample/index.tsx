@@ -10,6 +10,11 @@ import { erc20ABI } from '@wagmi/core';
 import axios from 'axios'; // TODO: use `fetch` API
 import { useQuery } from '@tanstack/react-query';
 import { TransactionRequest } from '@ethersproject/providers';
+// ray test touch <
+import { AddressZero } from '@ethersproject/constants';
+import { BigNumber } from '@ethersproject/bignumber';
+// ray test touch >
+import clsx from 'clsx';
 
 import Button from 'src/components/Button';
 
@@ -66,13 +71,11 @@ const TransferringTokensExample = () => {
         }),
       enabled: !!account.address
   });
-
   console.log('[TransferringTokensExample] quoteData => ', quoteData);
 
   const { config } = usePrepareSendTransaction({
     request: quoteData?.transactionRequest
   });
-
   console.log('[TransferringTokensExample] config => ', config);
 
   const {
@@ -113,15 +116,22 @@ const TransferringTokensExample = () => {
         }),
       enabled: !!(data?.hash) && !!(quoteData?.tool)
   });
+  console.log('[TransferringTokensExample] statusData => ', statusData);
+
+  // ray test touch <
+  const fromTokenAddress = quoteData?.action.fromToken.address;
+
+  const isFromTokenNativeToken = fromTokenAddress === AddressZero;
+  // ray test touch >
 
   const {
-    // isError: isAllowanceError,
-    // isLoading: allowanceLoading,
-    data: allowanceData
+    error: allowanceError,
+    isLoading: allowanceLoading,
+    data: allowanceData // TODO: revalidate once approved
   } = useContractRead({
     address:
       (account.address && quoteData?.estimate.approvalAddress) ?
-        quoteData?.action.fromToken.address :
+        fromTokenAddress :
         undefined,
     abi: erc20ABI,
     functionName: 'allowance',
@@ -131,23 +141,51 @@ const TransferringTokensExample = () => {
     ],
   });
 
-  // ray test touch <
-  console.log('ray : ***** allowanceData?.toString() => ', allowanceData?.toString());
-  // ray test touch >
+  if (
+    quoteLoading ||
+    allowanceLoading
+  ) return <div>Loading...</div>;
 
-  console.log('[TransferringTokensExample] statusData => ', statusData);
-
-  if (quoteLoading) return <div>Loading...</div>;
+  if (allowanceData === undefined) {
+    throw new Error('Something went wrong!');
+  }
 
   if (quoteError) return <div>{'An error has occurred (quote): ' + (quoteError instanceof Error ? quoteError.message : JSON.stringify(quoteError))}</div>;
 
   if (statusError) return <div>{'An error has occurred (status): ' + (statusError instanceof Error ? statusError.message : JSON.stringify(statusError))}</div>;
 
+  if (allowanceError) return <div>{'An error has occurred (allowance): ' + (allowanceError instanceof Error ? allowanceError.message : JSON.stringify(allowanceError))}</div>;
+
+  // ray test touch <
+  console.log('ray : ***** allowanceData.toString() => ', allowanceData.toString());
+  const approvalRequired = allowanceData.lt(BigNumber.from(FROM_AMOUNT));
+  // ray test touch >
+
   return (
     <div>
-      <div>
+      <div
+        className={clsx(
+          'flex',
+          'items-center',
+          'space-x-2'
+        )}>
+        {/* ray test touch < */}
         <Button
-          disabled={isLoading || !sendTransaction}
+          disabled={
+            isFromTokenNativeToken ||
+            !approvalRequired
+          }>
+          Approve
+        </Button>
+        {/* ray test touch > */}
+        <Button
+          disabled={
+            isLoading ||
+            !sendTransaction ||
+            // ray test touch <
+            approvalRequired
+            // ray test touch >
+          }
           onClick={() => {
             sendTransaction?.();
           }}>
