@@ -52,6 +52,9 @@ const LiFi = () => {
         .then((res) => res.data),
       enabled: !!account.address
   });
+  // ray test touch <
+  console.log('ray : ***** data => ', data);
+  // ray test touch >
 
   if (!isMounted) return null;
 
@@ -64,7 +67,7 @@ const LiFi = () => {
       <Connect />
       <NetworkSwitcher />
       <div>
-        {isMounted && account.connector && (
+        {account.connector && (
           <div>Connected to {account.connector.name}</div>
         )}
         {account.address && (
