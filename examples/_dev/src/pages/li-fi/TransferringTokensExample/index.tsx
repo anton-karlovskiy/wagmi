@@ -26,6 +26,11 @@ type Status = 'DONE' | 'FAILED';
 const TransferringTokensExample = () => {
   const [sendTxHash, setSendTxHash] = React.useState<string | undefined>(undefined);
 
+  // ray test touch <
+  const [approvalRequired, setApprovalRequired] = React.useState<boolean>(false);
+  console.log('ray : ***** approvalRequired => ', approvalRequired);
+  // ray test touch >
+
   const account = useAccount();
 
   const selectedAccountAddress = account.address;
@@ -132,7 +137,10 @@ const TransferringTokensExample = () => {
           spenderAddress={approvalAddress}
           tokenAddress={fromTokenAddress}
           amount={BigNumber.from(FROM_AMOUNT)}
-          disabled={isFromTokenNativeToken} />
+          disabled={isFromTokenNativeToken}
+          // ray test touch <
+          setApprovalRequired={setApprovalRequired} />
+          {/* ray test touch > */}
         <SendButton
           transactionRequest={quoteData.transactionRequest}
           setSendTxHash={setSendTxHash} />

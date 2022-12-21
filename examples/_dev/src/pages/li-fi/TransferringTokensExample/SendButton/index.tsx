@@ -54,7 +54,7 @@ const SendButton = ({
     setSendTxHash
   ]);
 
-  const handleSendTransaction = () => {
+  const handleSend = () => {
     if (sendTransaction === undefined) {
       throw new Error('Something went wrong!');
     }
@@ -70,19 +70,19 @@ const SendButton = ({
           isLoading ||
           !sendTransaction
         }
-        onClick={handleSendTransaction}>
+        onClick={handleSend}>
         {isLoading ? 'Sending...' : 'Send'}
       </Button>
       {isSuccess && (
         <div>
           <p>
-            Successfully sent {FROM_AMOUNT} {FROM_TOKEN} from {FROM_CHAIN} to {TO_CHAIN}.
+            Successfully sent {FROM_AMOUNT} {FROM_TOKEN} from {FROM_CHAIN} to {TO_CHAIN}!
           </p>
           <div>
             <a
               target='_blank'
               rel='noopener noreferrer'
-              href={`${BLOCK_EXPLORER_TX_HASH_URL}/${data?.hash}`}>
+              href={`${BLOCK_EXPLORER_TX_HASH_URL}/${txHash}`}>
               Block Explorer
             </a>
           </div>
