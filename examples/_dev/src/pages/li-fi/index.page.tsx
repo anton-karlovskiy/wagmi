@@ -11,6 +11,7 @@ import { useIsMounted } from 'src/hooks';
 // LI.FI Use cases
 // - Swap tokens on a single chain
 // - Bridge tokens between different two chains (cross-chain transfer)
+// - Swap tokens between different two chains (cross-chain swap)
 
 const LiFi = () => {
   const isMounted = useIsMounted();
