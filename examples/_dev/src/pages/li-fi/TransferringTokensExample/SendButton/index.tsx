@@ -67,7 +67,6 @@ const SendButton = ({
         onClick={handleSend}>
         {isLoading ? 'Sending...' : 'Send'}
       </Button>
-      {/* ray test touch < */}
       {isSuccess && (
         <div>
           <p>
@@ -82,7 +81,6 @@ const SendButton = ({
           </a>
         </div>
       )}
-      {/* ray test touch > */}
     </div>
   );
 };

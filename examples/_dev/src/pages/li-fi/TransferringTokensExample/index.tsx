@@ -28,13 +28,8 @@ const TransferringTokensExample = () => {
   const [sendTxHash, setSendTxHash] = React.useState<string | undefined>(undefined);
 
   const [approvalRequired, setApprovalRequired] = React.useState<boolean>(false);
-  // ray test touch <
-  console.log('ray : ***** approvalRequired => ', approvalRequired);
-  // ray test touch >
 
-  // ray test touch <
   const [statusRefetchInterval, setStatusRefetchInterval] = React.useState(1000)
-  // ray test touch >
 
   const account = useAccount();
 
@@ -109,13 +104,10 @@ const TransferringTokensExample = () => {
           status: Status
         }),
     enabled: !!sendTxHash && !!bridge,
-    // ray test touch <
     refetchInterval: statusRefetchInterval
-    // ray test touch >
   });
   console.log('[TransferringTokensExample] statusData => ', statusData);
 
-  // ray test touch <
   React.useEffect(() => {
     if (!statusData) return;
 
@@ -123,7 +115,6 @@ const TransferringTokensExample = () => {
       setStatusRefetchInterval(0);
     }
   }, [statusData]);
-  // ray test touch >
 
   if (quoteLoading) return <div>Loading...</div>;
 
@@ -150,7 +141,6 @@ const TransferringTokensExample = () => {
           'space-y-2',
           'max-w-sm'
         )}>
-        {/* ray test touch < */}
         {approvalRequired ? (
           <ApproveButton
             ownerAddress={selectedAccountAddress}
@@ -164,11 +154,9 @@ const TransferringTokensExample = () => {
             transactionRequest={quoteData.transactionRequest}
             setSendTxHash={setSendTxHash} />
         )}
-        {/* ray test touch > */}
       </div>
       <div>{quoteFetching ? 'Updating...' : ''}</div>
       {statusFetching === true && <div>Waiting for the status...</div>}
-      {/* ray test touch < */}
       <div>
         {statusData?.status === 'DONE' && (
           <p>
@@ -193,7 +181,6 @@ const TransferringTokensExample = () => {
           </a>
         )}
       </div>
-      {/* ray test touch > */}
     </div>
   );
 };
