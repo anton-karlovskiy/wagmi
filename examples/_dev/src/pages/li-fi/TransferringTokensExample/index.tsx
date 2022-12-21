@@ -16,7 +16,8 @@ const FROM_AMOUNT = '10000'; // 0.01 USDC
 
 const LIFI_QUOTE_API_ENDPOINT = 'https://li.quest/v1/quote';
 
-const BLOCK_EXPLORER_TX_HASH_URL = 'https://blockscout.com/xdai/mainnet/tx';
+// const BLOCK_EXPLORER_TX_HASH_URL = 'https://blockscout.com/xdai/mainnet/tx';
+const BLOCK_EXPLORER_TX_HASH_URL = 'https://etherscan.io/tx';
 
 const TransferringTokensExample = () => {
   const account = useAccount();
