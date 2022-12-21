@@ -119,12 +119,13 @@ const TransferringTokensExample = () => {
   if (statusError) return <div>{'An error has occurred (status): ' + (statusError instanceof Error ? statusError.message : JSON.stringify(statusError))}</div>;
 
   return (
-    <div>
+    <div className='space-y-3'>
       <div
         className={clsx(
           'flex',
-          'items-center',
-          'space-x-2'
+          'flex-col',
+          'space-y-2',
+          'max-w-xs'
         )}>
         <ApproveButton
           ownerAddress={selectedAccountAddress}

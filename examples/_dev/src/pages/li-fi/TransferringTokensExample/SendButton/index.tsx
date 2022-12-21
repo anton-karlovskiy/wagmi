@@ -65,6 +65,7 @@ const SendButton = ({
   return (
     <div>
       <Button
+        className='w-full'
         disabled={
           isLoading ||
           !sendTransaction

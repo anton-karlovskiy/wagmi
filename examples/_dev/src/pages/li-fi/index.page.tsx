@@ -34,7 +34,7 @@ const LiFi = () => {
   return (
     <div
       className={clsx(
-        'space-y-5',
+        'space-y-6',
         'p-6'
       )}>
       <Connect />
