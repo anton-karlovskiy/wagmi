@@ -1,6 +1,4 @@
-// ray test touch <
 import * as React from 'react';
-// ray test touch >
 import {
   useSendTransaction,
   useWaitForTransaction,
@@ -17,14 +15,12 @@ import {
   BLOCK_EXPLORER_TX_HASH_URL
 } from 'src/config/li-fi';
 
-// ray test touch <
 type CustomTransactionRequest = TransactionRequest & { to: string; };
 
 interface Props {
   transactionRequest: CustomTransactionRequest;
   setSendTxHash: React.Dispatch<React.SetStateAction<string | undefined>>;
 }
-// ray test touch >
 
 const SendButton = ({
   transactionRequest,
@@ -40,9 +36,7 @@ const SendButton = ({
     sendTransaction
   } = useSendTransaction(config);
 
-  // ray test touch <
   const txHash = data?.hash;
-  // ray test touch >
 
   const {
     isLoading,
@@ -51,9 +45,7 @@ const SendButton = ({
     hash: txHash
   });
 
-  // ray test touch <
   React.useEffect(() => {
-    if (txHash === undefined) return;
     if (setSendTxHash === undefined) return;
     
     setSendTxHash(txHash);
@@ -61,9 +53,7 @@ const SendButton = ({
     txHash,
     setSendTxHash
   ]);
-  // ray test touch >
 
-  // ray test touch <
   const handleSendTransaction = () => {
     if (sendTransaction === undefined) {
       throw new Error('Something went wrong!');
@@ -71,7 +61,6 @@ const SendButton = ({
 
     sendTransaction();
   };
-  // ray test touch >
 
   return (
     <div>

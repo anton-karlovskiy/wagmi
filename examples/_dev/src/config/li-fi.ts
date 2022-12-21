@@ -1,4 +1,3 @@
-// ray test touch <
 const FROM_CHAIN = 'AVA';
 const FROM_TOKEN = 'USDC';
 const TO_CHAIN = 'ETH';
@@ -23,4 +22,3 @@ export {
   LIFI_STATUS_API_ENDPOINT,
   BLOCK_EXPLORER_TX_HASH_URL
 };
-// ray test touch >

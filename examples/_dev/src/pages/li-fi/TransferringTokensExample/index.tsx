@@ -1,6 +1,4 @@
-// ray test touch <
 import * as React from 'react';
-// ray test touch >
 import {
   useAccount,
   Address
@@ -26,9 +24,7 @@ import {
 type Status = 'DONE' | 'FAILED';
 
 const TransferringTokensExample = () => {
-  // ray test touch <
   const [sendTxHash, setSendTxHash] = React.useState<string | undefined>(undefined);
-  // ray test touch >
 
   const account = useAccount();
 
