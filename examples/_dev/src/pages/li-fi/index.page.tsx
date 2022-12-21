@@ -8,10 +8,18 @@ import Connect from 'src/components/Connect';
 import NetworkSwitcher from 'src/components/NetworkSwitcher';
 import { useIsMounted } from 'src/hooks';
 
+// LI.FI Use cases
+// - Swap tokens on a single chain
+// - Bridge tokens between different two chains (cross-chain transfer)
+
 const LiFi = () => {
   const isMounted = useIsMounted();
 
-  const account = useAccount({
+  const {
+    connector,
+    address,
+    isConnected
+  } = useAccount({
     onConnect: (data) => console.log('[LiFi onConnect] connected data => ', data),
     onDisconnect: () => console.log('[LiFi onDisconnect] disconnected')
   });
@@ -25,16 +33,16 @@ const LiFi = () => {
       <Connect />
       <NetworkSwitcher />
       <div>
-        {account.connector && (
-          <div>Connected to {account.connector.name}</div>
+        {connector && (
+          <div>Connected to {connector.name}</div>
         )}
-        {account.address && (
+        {address && (
           <div>
             <button onClick={() => disconnect.disconnect()}>Disconnect</button>
           </div>
         )}
       </div>
-      <TransferringTokensExample />
+      {isConnected && <TransferringTokensExample />}
     </>
   );
 };
