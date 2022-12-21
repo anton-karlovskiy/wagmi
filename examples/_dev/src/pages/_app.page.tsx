@@ -22,6 +22,7 @@ import {
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import { avalanche } from '../config/chains';
+import 'src/styles/globals.css';
 
 const queryClient = new QueryClient();
 

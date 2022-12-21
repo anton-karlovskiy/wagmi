@@ -144,13 +144,15 @@ const TransferringTokensExample = () => {
   return (
     <div>
       <div>{quoteFetching ? 'Updating...' : ''}</div>
-      <button
-        disabled={isLoading || !sendTransaction}
-        onClick={() => {
-          sendTransaction?.();
-        }}>
-        {isLoading ? 'Sending...' : 'Send'}
-      </button>
+      <div>
+        <button
+          disabled={isLoading || !sendTransaction}
+          onClick={() => {
+            sendTransaction?.();
+          }}>
+          {isLoading ? 'Sending...' : 'Send'}
+        </button>
+      </div>
       {statusFetching === true && <div>Waiting for the status...</div>}
       {isSuccess && (
         <div>
