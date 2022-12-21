@@ -2,10 +2,12 @@ import {
   useAccount,
   useDisconnect
 } from 'wagmi';
+import clsx from 'clsx';
 
 import TransferringTokensExample from './TransferringTokensExample';
 import Connect from 'src/components/Connect';
 import NetworkSwitcher from 'src/components/NetworkSwitcher';
+import Button from 'src/components/Button';
 import { useIsMounted } from 'src/hooks';
 
 // LI.FI Use cases
@@ -30,7 +32,11 @@ const LiFi = () => {
   if (!isMounted) return null;
 
   return (
-    <>
+    <div
+      className={clsx(
+        'space-y-5',
+        'p-6'
+      )}>
       <Connect />
       <NetworkSwitcher />
       <div>
@@ -39,12 +45,12 @@ const LiFi = () => {
         )}
         {address && (
           <div>
-            <button onClick={() => disconnect.disconnect()}>Disconnect</button>
+            <Button onClick={() => disconnect.disconnect()}>Disconnect</Button>
           </div>
         )}
       </div>
       {isConnected && <TransferringTokensExample />}
-    </>
+    </div>
   );
 };
 

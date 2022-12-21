@@ -11,6 +11,10 @@ import axios from 'axios'; // TODO: use `fetch` API
 import { useQuery } from '@tanstack/react-query';
 import { TransactionRequest } from '@ethersproject/providers';
 
+// ray test touch <
+import Button from 'src/components/Button';
+// ray test touch >
+
 const FROM_CHAIN = 'AVA';
 const FROM_TOKEN = 'USDC';
 const TO_CHAIN = 'ETH';
@@ -143,16 +147,16 @@ const TransferringTokensExample = () => {
 
   return (
     <div>
-      <div>{quoteFetching ? 'Updating...' : ''}</div>
       <div>
-        <button
+        <Button
           disabled={isLoading || !sendTransaction}
           onClick={() => {
             sendTransaction?.();
           }}>
           {isLoading ? 'Sending...' : 'Send'}
-        </button>
+        </Button>
       </div>
+      <div>{quoteFetching ? 'Updating...' : ''}</div>
       {statusFetching === true && <div>Waiting for the status...</div>}
       {isSuccess && (
         <div>
