@@ -11,9 +11,7 @@ import axios from 'axios'; // TODO: use `fetch` API
 import { useQuery } from '@tanstack/react-query';
 import { TransactionRequest } from '@ethersproject/providers';
 
-// ray test touch <
 import Button from 'src/components/Button';
-// ray test touch >
 
 const FROM_CHAIN = 'AVA';
 const FROM_TOKEN = 'USDC';

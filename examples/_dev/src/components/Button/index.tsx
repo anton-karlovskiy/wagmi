@@ -1,22 +1,22 @@
-// ray test touch <
 import clsx from 'clsx';
 
 type Props = React.ComponentPropsWithRef<'button'>;
 
 const Button = ({
   className,
+  disabled,
   ...rest
 }: Props) => {
   return (
     <button
+      disabled={disabled}
       className={clsx(
-        'bg-blue-500',
-        'hover:bg-blue-700',
+        disabled ? 'bg-blue-200' : 'bg-blue-500',
+        { 'hover:bg-blue-700': !disabled },
         'text-white',
-        'font-bold',
+        'font-medium',
         'py-2',
         'px-4',
-        'rounded',
         className
       )}
       {...rest} />
@@ -24,4 +24,3 @@ const Button = ({
 };
 
 export default Button;
-// ray test touch >
