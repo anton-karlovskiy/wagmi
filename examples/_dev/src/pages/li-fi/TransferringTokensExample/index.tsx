@@ -10,10 +10,8 @@ import { erc20ABI } from '@wagmi/core';
 import axios from 'axios'; // TODO: use `fetch` API
 import { useQuery } from '@tanstack/react-query';
 import { TransactionRequest } from '@ethersproject/providers';
-// ray test touch <
 import { AddressZero } from '@ethersproject/constants';
 import { BigNumber } from '@ethersproject/bignumber';
-// ray test touch >
 import clsx from 'clsx';
 
 import Button from 'src/components/Button';
@@ -118,11 +116,11 @@ const TransferringTokensExample = () => {
   });
   console.log('[TransferringTokensExample] statusData => ', statusData);
 
-  // ray test touch <
   const fromTokenAddress = quoteData?.action.fromToken.address;
 
+  const approvalAddress = quoteData?.estimate.approvalAddress;
+
   const isFromTokenNativeToken = fromTokenAddress === AddressZero;
-  // ray test touch >
 
   const {
     error: allowanceError,
@@ -130,14 +128,14 @@ const TransferringTokensExample = () => {
     data: allowanceData // TODO: revalidate once approved
   } = useContractRead({
     address:
-      (account.address && quoteData?.estimate.approvalAddress) ?
+      (account.address && approvalAddress) ?
         fromTokenAddress :
         undefined,
     abi: erc20ABI,
     functionName: 'allowance',
     args: [
       account.address as Address,
-      quoteData?.estimate.approvalAddress as Address
+      approvalAddress as Address
     ],
   });
 
@@ -158,8 +156,8 @@ const TransferringTokensExample = () => {
 
   // ray test touch <
   console.log('ray : ***** allowanceData.toString() => ', allowanceData.toString());
-  const approvalRequired = allowanceData.lt(BigNumber.from(FROM_AMOUNT));
   // ray test touch >
+  const approvalRequired = allowanceData.lt(BigNumber.from(FROM_AMOUNT));
 
   return (
     <div>
@@ -169,7 +167,6 @@ const TransferringTokensExample = () => {
           'items-center',
           'space-x-2'
         )}>
-        {/* ray test touch < */}
         <Button
           disabled={
             isFromTokenNativeToken ||
@@ -177,14 +174,11 @@ const TransferringTokensExample = () => {
           }>
           Approve
         </Button>
-        {/* ray test touch > */}
         <Button
           disabled={
             isLoading ||
             !sendTransaction ||
-            // ray test touch <
             approvalRequired
-            // ray test touch >
           }
           onClick={() => {
             sendTransaction?.();
