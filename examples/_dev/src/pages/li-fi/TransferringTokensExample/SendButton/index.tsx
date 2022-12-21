@@ -7,13 +7,7 @@ import {
 import { TransactionRequest } from '@ethersproject/providers';
 
 import Button from 'src/components/Button';
-import {
-  FROM_CHAIN,
-  FROM_TOKEN,
-  TO_CHAIN,
-  FROM_AMOUNT,
-  BLOCK_EXPLORER_TX_HASH_URL
-} from 'src/config/li-fi';
+import { BLOCK_EXPLORER_TX_HASH_URL } from 'src/config/li-fi';
 
 type CustomTransactionRequest = TransactionRequest & { to: string; };
 
@@ -29,7 +23,7 @@ const SendButton = ({
   const { config } = usePrepareSendTransaction({
     request: transactionRequest
   });
-  console.log('[TransferringTokensExample] config => ', config);
+  console.log('[SendButton usePrepareSendTransaction] config => ', config);
 
   const {
     data,
@@ -73,21 +67,22 @@ const SendButton = ({
         onClick={handleSend}>
         {isLoading ? 'Sending...' : 'Send'}
       </Button>
+      {/* ray test touch < */}
       {isSuccess && (
         <div>
           <p>
-            Successfully sent {FROM_AMOUNT} {FROM_TOKEN} from {FROM_CHAIN} to {TO_CHAIN}!
+            Successfully sent!
           </p>
-          <div>
-            <a
-              target='_blank'
-              rel='noopener noreferrer'
-              href={`${BLOCK_EXPLORER_TX_HASH_URL}/${txHash}`}>
-              Block Explorer
-            </a>
-          </div>
+          <a
+            className='underline'
+            target='_blank'
+            rel='noopener noreferrer'
+            href={`${BLOCK_EXPLORER_TX_HASH_URL}/${txHash}`}>
+            View on block explorer
+          </a>
         </div>
       )}
+      {/* ray test touch > */}
     </div>
   );
 };

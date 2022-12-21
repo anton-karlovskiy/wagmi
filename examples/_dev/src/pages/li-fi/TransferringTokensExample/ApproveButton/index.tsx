@@ -119,14 +119,12 @@ const ApproveButton = ({
           <p>
             Successfully approved!
           </p>
-          <div>
-            <a
-              target='_blank'
-              rel='noopener noreferrer'
-              href={`${BLOCK_EXPLORER_TX_HASH_URL}/${txHash}`}>
-              Block Explorer
-            </a>
-          </div>
+          <a
+            target='_blank'
+            rel='noopener noreferrer'
+            href={`${BLOCK_EXPLORER_TX_HASH_URL}/${txHash}`}>
+            View on block explorer
+          </a>
         </div>
       )}
     </Button>

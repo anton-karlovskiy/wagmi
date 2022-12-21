@@ -17,11 +17,12 @@ import {
   TO_CHAIN,
   TO_TOKEN,
   FROM_AMOUNT,
+  BLOCK_EXPLORER_TX_HASH_URL,
   LIFI_QUOTE_API_ENDPOINT,
   LIFI_STATUS_API_ENDPOINT
 } from 'src/config/li-fi';
 
-type Status = 'DONE' | 'FAILED';
+type Status = 'DONE' | 'FAILED' | 'NOT_FOUND';
 
 const TransferringTokensExample = () => {
   const [sendTxHash, setSendTxHash] = React.useState<string | undefined>(undefined);
@@ -29,6 +30,10 @@ const TransferringTokensExample = () => {
   const [approvalRequired, setApprovalRequired] = React.useState<boolean>(false);
   // ray test touch <
   console.log('ray : ***** approvalRequired => ', approvalRequired);
+  // ray test touch >
+
+  // ray test touch <
+  const [statusRefetchInterval, setStatusRefetchInterval] = React.useState(1000)
   // ray test touch >
 
   const account = useAccount();
@@ -103,9 +108,22 @@ const TransferringTokensExample = () => {
         .then((res) => res.data as {
           status: Status
         }),
-      enabled: !!sendTxHash && !!bridge
+    enabled: !!sendTxHash && !!bridge,
+    // ray test touch <
+    refetchInterval: statusRefetchInterval
+    // ray test touch >
   });
   console.log('[TransferringTokensExample] statusData => ', statusData);
+
+  // ray test touch <
+  React.useEffect(() => {
+    if (!statusData) return;
+
+    if (statusData.status === 'DONE' || statusData.status === 'FAILED') {
+      setStatusRefetchInterval(0);
+    }
+  }, [statusData]);
+  // ray test touch >
 
   if (quoteLoading) return <div>Loading...</div>;
 
@@ -130,21 +148,52 @@ const TransferringTokensExample = () => {
           'flex',
           'flex-col',
           'space-y-2',
-          'max-w-xs'
+          'max-w-sm'
         )}>
-        <ApproveButton
-          ownerAddress={selectedAccountAddress}
-          spenderAddress={approvalAddress}
-          tokenAddress={fromTokenAddress}
-          amount={BigNumber.from(FROM_AMOUNT)}
-          disabled={isFromTokenNativeToken}
-          setApprovalRequired={setApprovalRequired} />
-        <SendButton
-          transactionRequest={quoteData.transactionRequest}
-          setSendTxHash={setSendTxHash} />
+        {/* ray test touch < */}
+        {approvalRequired ? (
+          <ApproveButton
+            ownerAddress={selectedAccountAddress}
+            spenderAddress={approvalAddress}
+            tokenAddress={fromTokenAddress}
+            amount={BigNumber.from(FROM_AMOUNT)}
+            disabled={isFromTokenNativeToken}
+            setApprovalRequired={setApprovalRequired} />
+        ) : (
+          <SendButton
+            transactionRequest={quoteData.transactionRequest}
+            setSendTxHash={setSendTxHash} />
+        )}
+        {/* ray test touch > */}
       </div>
       <div>{quoteFetching ? 'Updating...' : ''}</div>
       {statusFetching === true && <div>Waiting for the status...</div>}
+      {/* ray test touch < */}
+      <div>
+        {statusData?.status === 'DONE' && (
+          <p>
+            Successfully transferred {FROM_AMOUNT} {FROM_TOKEN} from {FROM_CHAIN} to {TO_CHAIN}!
+          </p>
+        )}
+        {statusData?.status === 'FAILED' && (
+          <p>
+            Failed to transfer {FROM_AMOUNT} {FROM_TOKEN} from {FROM_CHAIN} to {TO_CHAIN}!
+          </p>
+        )}
+        {statusData?.status === 'DONE' || statusData?.status === 'FAILED' && (
+          <a
+            className={clsx(
+              'underline',
+              'block'
+            )}
+            target='_blank'
+            rel='noopener noreferrer'
+            href={`${BLOCK_EXPLORER_TX_HASH_URL}/${sendTxHash}`}>
+            View on block explorer
+          </a>
+        )}
+      </div>
+      {/* ray test touch > */}
     </div>
   );
 };
