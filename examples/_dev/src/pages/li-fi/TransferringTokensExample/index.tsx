@@ -14,7 +14,7 @@ const FROM_CHAIN = 'ETH';
 const FROM_TOKEN = 'USDC';
 const TO_CHAIN = 'AVA';
 const TO_TOKEN = 'USDC';
-const FROM_AMOUNT = '10000'; 0.01 USDC
+const FROM_AMOUNT = '10000'; // 0.01 USDC
 
 const LIFI_QUOTE_API_ENDPOINT = 'https://li.quest/v1/quote';
 
