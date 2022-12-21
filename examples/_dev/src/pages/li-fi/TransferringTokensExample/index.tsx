@@ -1,35 +1,35 @@
+// ray test touch <
+import * as React from 'react';
+// ray test touch >
 import {
   useAccount,
-  useSendTransaction,
-  useWaitForTransaction,
-  usePrepareSendTransaction,
   Address
 } from 'wagmi';
 import axios from 'axios'; // TODO: use `fetch` API
 import { useQuery } from '@tanstack/react-query';
-import { TransactionRequest } from '@ethersproject/providers';
 import { AddressZero } from '@ethersproject/constants';
 import { BigNumber } from '@ethersproject/bignumber';
 import clsx from 'clsx';
 
 import ApproveButton from './ApproveButton';
-import Button from 'src/components/Button';
+import SendButton, { CustomTransactionRequest } from './SendButton';
+import {
+  FROM_CHAIN,
+  FROM_TOKEN,
+  TO_CHAIN,
+  TO_TOKEN,
+  FROM_AMOUNT,
+  LIFI_QUOTE_API_ENDPOINT,
+  LIFI_STATUS_API_ENDPOINT
+} from 'src/config/li-fi';
 
-const FROM_CHAIN = 'AVA';
-const FROM_TOKEN = 'USDC';
-const TO_CHAIN = 'ETH';
-const TO_TOKEN = 'USDC';
-const FROM_AMOUNT = '10000'; // 0.01 USDC
-
-const LIFI_QUOTE_API_ENDPOINT = 'https://li.quest/v1/quote';
-
-const LIFI_STATUS_API_ENDPOINT = 'https://li.quest/v1/status';
-
-// const BLOCK_EXPLORER_TX_HASH_URL = 'https://blockscout.com/xdai/mainnet/tx';
-// const BLOCK_EXPLORER_TX_HASH_URL = 'https://etherscan.io/tx';
-const BLOCK_EXPLORER_TX_HASH_URL = 'https://snowtrace.io/tx';
+type Status = 'DONE' | 'FAILED';
 
 const TransferringTokensExample = () => {
+  // ray test touch <
+  const [sendTxHash, setSendTxHash] = React.useState<string | undefined>(undefined);
+  // ray test touch >
+
   const account = useAccount();
 
   const selectedAccountAddress = account.address;
@@ -62,7 +62,7 @@ const TransferringTokensExample = () => {
         })
         .then((res) => res.data as {
           tool: string;
-          transactionRequest: TransactionRequest & { to: string; };
+          transactionRequest: CustomTransactionRequest;
           action: {
             fromToken: {
               address: Address;
@@ -76,22 +76,7 @@ const TransferringTokensExample = () => {
   });
   console.log('[TransferringTokensExample] quoteData => ', quoteData);
 
-  const { config } = usePrepareSendTransaction({
-    request: quoteData?.transactionRequest
-  });
-  console.log('[TransferringTokensExample] config => ', config);
-
-  const {
-    data,
-    sendTransaction
-  } = useSendTransaction(config);
-
-  const {
-    isLoading,
-    isSuccess
-  } = useWaitForTransaction({
-    hash: data?.hash
-  });
+  const bridge = quoteData?.tool;
 
   const {
     // isLoading: statusLoading,
@@ -101,23 +86,23 @@ const TransferringTokensExample = () => {
   } = useQuery({
     queryKey: [
       LIFI_STATUS_API_ENDPOINT,
-      quoteData?.tool,
-      data?.hash
+      bridge,
+      sendTxHash
     ],
     queryFn: () =>
       axios
         .get(LIFI_STATUS_API_ENDPOINT, {
           params: {
-            bridge: quoteData?.tool,
+            bridge,
             fromChain: FROM_CHAIN,
             toChain: TO_CHAIN,
-            txHash: data?.hash
+            txHash: sendTxHash
           }
         })
         .then((res) => res.data as {
-          status: 'DONE' | 'FAILED'
+          status: Status
         }),
-      enabled: !!(data?.hash) && !!(quoteData?.tool)
+      enabled: !!sendTxHash && !!bridge
   });
   console.log('[TransferringTokensExample] statusData => ', statusData);
 
@@ -150,35 +135,13 @@ const TransferringTokensExample = () => {
           spenderAddress={approvalAddress}
           tokenAddress={fromTokenAddress}
           amount={BigNumber.from(FROM_AMOUNT)}
-          disabled={isFromTokenNativeToken}>
-          Approve
-        </ApproveButton>
-        <Button
-          disabled={
-            isLoading ||
-            !sendTransaction
-          }
-          onClick={() => {
-            sendTransaction?.();
-          }}>
-          {isLoading ? 'Sending...' : 'Send'}
-        </Button>
+          disabled={isFromTokenNativeToken} />
+        <SendButton
+          transactionRequest={quoteData.transactionRequest}
+          setSendTxHash={setSendTxHash} />
       </div>
       <div>{quoteFetching ? 'Updating...' : ''}</div>
       {statusFetching === true && <div>Waiting for the status...</div>}
-      {isSuccess && (
-        <div>
-          Successfully sent {FROM_AMOUNT} {FROM_TOKEN} from {FROM_CHAIN} to {TO_CHAIN}.
-          <div>
-            <a
-              target='_blank'
-              rel='noopener noreferrer'
-              href={`${BLOCK_EXPLORER_TX_HASH_URL}/${data?.hash}`}>
-              Block Explorer
-            </a>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
