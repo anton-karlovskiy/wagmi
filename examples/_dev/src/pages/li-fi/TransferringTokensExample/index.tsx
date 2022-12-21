@@ -3,10 +3,8 @@ import {
   useSendTransaction,
   useWaitForTransaction,
   usePrepareSendTransaction,
-  useContractRead, 
   Address
 } from 'wagmi';
-import { erc20ABI } from '@wagmi/core';
 import axios from 'axios'; // TODO: use `fetch` API
 import { useQuery } from '@tanstack/react-query';
 import { TransactionRequest } from '@ethersproject/providers';
@@ -14,6 +12,9 @@ import { AddressZero } from '@ethersproject/constants';
 import { BigNumber } from '@ethersproject/bignumber';
 import clsx from 'clsx';
 
+// ray test touch <
+import ApproveButton from './ApproveButton';
+// ray test touch >
 import Button from 'src/components/Button';
 
 const FROM_CHAIN = 'AVA';
@@ -33,6 +34,14 @@ const BLOCK_EXPLORER_TX_HASH_URL = 'https://snowtrace.io/tx';
 const TransferringTokensExample = () => {
   const account = useAccount();
 
+  // ray test touch <
+  const selectedAccountAddress = account.address;
+
+  if (selectedAccountAddress === undefined) {
+    throw new Error('Something went wrong!');
+  }
+  // ray test touch >
+
   const {
     isLoading: quoteLoading,
     error: quoteError,
@@ -41,7 +50,7 @@ const TransferringTokensExample = () => {
   } = useQuery({
     queryKey: [
       LIFI_QUOTE_API_ENDPOINT,
-      account.address
+      selectedAccountAddress
     ],
     queryFn: () =>
       axios
@@ -52,7 +61,7 @@ const TransferringTokensExample = () => {
             fromToken: FROM_TOKEN,
             toToken: TO_TOKEN,
             fromAmount: FROM_AMOUNT,
-            fromAddress: account.address
+            fromAddress: selectedAccountAddress
           }
         })
         .then((res) => res.data as {
@@ -67,7 +76,7 @@ const TransferringTokensExample = () => {
             approvalAddress: Address;
           };
         }),
-      enabled: !!account.address
+      enabled: !!selectedAccountAddress
   });
   console.log('[TransferringTokensExample] quoteData => ', quoteData);
 
@@ -116,48 +125,21 @@ const TransferringTokensExample = () => {
   });
   console.log('[TransferringTokensExample] statusData => ', statusData);
 
-  const fromTokenAddress = quoteData?.action.fromToken.address;
+  if (quoteLoading) return <div>Loading...</div>;
 
-  const approvalAddress = quoteData?.estimate.approvalAddress;
-
-  const isFromTokenNativeToken = fromTokenAddress === AddressZero;
-
-  const {
-    error: allowanceError,
-    isLoading: allowanceLoading,
-    data: allowanceData // TODO: revalidate once approved
-  } = useContractRead({
-    address:
-      (account.address && approvalAddress) ?
-        fromTokenAddress :
-        undefined,
-    abi: erc20ABI,
-    functionName: 'allowance',
-    args: [
-      account.address as Address,
-      approvalAddress as Address
-    ],
-  });
-
-  if (
-    quoteLoading ||
-    allowanceLoading
-  ) return <div>Loading...</div>;
-
-  if (allowanceData === undefined) {
+  if (quoteData === undefined) {
     throw new Error('Something went wrong!');
   }
+  
+  const fromTokenAddress = quoteData.action.fromToken.address;
+  
+  const approvalAddress = quoteData.estimate.approvalAddress;
+  
+  const isFromTokenNativeToken = fromTokenAddress === AddressZero;
 
   if (quoteError) return <div>{'An error has occurred (quote): ' + (quoteError instanceof Error ? quoteError.message : JSON.stringify(quoteError))}</div>;
 
   if (statusError) return <div>{'An error has occurred (status): ' + (statusError instanceof Error ? statusError.message : JSON.stringify(statusError))}</div>;
-
-  if (allowanceError) return <div>{'An error has occurred (allowance): ' + (allowanceError instanceof Error ? allowanceError.message : JSON.stringify(allowanceError))}</div>;
-
-  // ray test touch <
-  console.log('ray : ***** allowanceData.toString() => ', allowanceData.toString());
-  // ray test touch >
-  const approvalRequired = allowanceData.lt(BigNumber.from(FROM_AMOUNT));
 
   return (
     <div>
@@ -167,18 +149,20 @@ const TransferringTokensExample = () => {
           'items-center',
           'space-x-2'
         )}>
-        <Button
-          disabled={
-            isFromTokenNativeToken ||
-            !approvalRequired
-          }>
+        {/* ray test touch < */}
+        <ApproveButton
+          ownerAddress={selectedAccountAddress}
+          spenderAddress={approvalAddress}
+          tokenAddress={fromTokenAddress}
+          amount={BigNumber.from(FROM_AMOUNT)}
+          disabled={isFromTokenNativeToken}>
           Approve
-        </Button>
+        </ApproveButton>
+        {/* ray test touch > */}
         <Button
           disabled={
             isLoading ||
-            !sendTransaction ||
-            approvalRequired
+            !sendTransaction
           }
           onClick={() => {
             sendTransaction?.();

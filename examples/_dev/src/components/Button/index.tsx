@@ -23,4 +23,6 @@ const Button = ({
   );
 };
 
+export type { Props };
+
 export default Button;
