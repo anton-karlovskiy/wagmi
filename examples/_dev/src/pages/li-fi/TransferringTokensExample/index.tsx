@@ -16,9 +16,7 @@ const FROM_AMOUNT = '10000'; // 0.01 USDC
 
 const LIFI_QUOTE_API_ENDPOINT = 'https://li.quest/v1/quote';
 
-// ray test touch <
 const LIFI_STATUS_API_ENDPOINT = 'https://li.quest/v1/status';
-// ray test touch >
 
 // const BLOCK_EXPLORER_TX_HASH_URL = 'https://blockscout.com/xdai/mainnet/tx';
 const BLOCK_EXPLORER_TX_HASH_URL = 'https://etherscan.io/tx';
@@ -54,16 +52,14 @@ const TransferringTokensExample = () => {
         }),
       enabled: !!account.address
   });
-  // ray test touch <
-  console.log('ray : ***** quoteData => ', quoteData);
-  // ray test touch >
+
+  console.log('[TransferringTokensExample] quoteData => ', quoteData);
 
   const { config } = usePrepareSendTransaction({
     request: quoteData?.transactionRequest
   });
-  // ray test touch <
-  console.log('ray : ***** config => ', config);
-  // ray test touch >
+
+  console.log('[TransferringTokensExample] config => ', config);
 
   const {
     data,
@@ -77,7 +73,6 @@ const TransferringTokensExample = () => {
     hash: data?.hash
   });
 
-  // ray test touch <
   const {
     // isLoading: statusLoading,
     isFetching: statusFetching,
@@ -104,8 +99,8 @@ const TransferringTokensExample = () => {
         }),
       enabled: !!(data?.hash) && !!(quoteData?.tool)
   });
-  console.log('ray : ***** statusData => ', statusData);
-  // ray test touch >
+
+  console.log('[TransferringTokensExample] statusData => ', statusData);
 
   if (quoteLoading) return <div>Loading...</div>;
 
