@@ -3,14 +3,10 @@ import {
   useSendTransaction,
   useWaitForTransaction,
   usePrepareSendTransaction,
-  // ray test touch <
   useContractRead, 
   Address
-  // ray test touch >
 } from 'wagmi';
-// ray test touch <
 import { erc20ABI } from '@wagmi/core';
-// ray test touch >
 import axios from 'axios'; // TODO: use `fetch` API
 import { useQuery } from '@tanstack/react-query';
 import { TransactionRequest } from '@ethersproject/providers';
@@ -57,7 +53,6 @@ const TransferringTokensExample = () => {
         .then((res) => res.data as {
           tool: string;
           transactionRequest: TransactionRequest & { to: string; };
-          // ray test touch <
           action: {
             fromToken: {
               address: Address;
@@ -66,7 +61,6 @@ const TransferringTokensExample = () => {
           estimate: {
             approvalAddress: Address;
           };
-          // ray test touch >
         }),
       enabled: !!account.address
   });
@@ -118,7 +112,6 @@ const TransferringTokensExample = () => {
       enabled: !!(data?.hash) && !!(quoteData?.tool)
   });
 
-  // ray test touch <
   const {
     // isError: isAllowanceError,
     // isLoading: allowanceLoading,
@@ -135,6 +128,8 @@ const TransferringTokensExample = () => {
       quoteData?.estimate.approvalAddress as Address
     ],
   });
+
+  // ray test touch <
   console.log('ray : ***** allowanceData?.toString() => ', allowanceData?.toString());
   // ray test touch >
 
