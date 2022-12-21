@@ -12,9 +12,7 @@ import { AddressZero } from '@ethersproject/constants';
 import { BigNumber } from '@ethersproject/bignumber';
 import clsx from 'clsx';
 
-// ray test touch <
 import ApproveButton from './ApproveButton';
-// ray test touch >
 import Button from 'src/components/Button';
 
 const FROM_CHAIN = 'AVA';
@@ -34,13 +32,11 @@ const BLOCK_EXPLORER_TX_HASH_URL = 'https://snowtrace.io/tx';
 const TransferringTokensExample = () => {
   const account = useAccount();
 
-  // ray test touch <
   const selectedAccountAddress = account.address;
 
   if (selectedAccountAddress === undefined) {
     throw new Error('Something went wrong!');
   }
-  // ray test touch >
 
   const {
     isLoading: quoteLoading,
@@ -149,7 +145,6 @@ const TransferringTokensExample = () => {
           'items-center',
           'space-x-2'
         )}>
-        {/* ray test touch < */}
         <ApproveButton
           ownerAddress={selectedAccountAddress}
           spenderAddress={approvalAddress}
@@ -158,7 +153,6 @@ const TransferringTokensExample = () => {
           disabled={isFromTokenNativeToken}>
           Approve
         </ApproveButton>
-        {/* ray test touch > */}
         <Button
           disabled={
             isLoading ||

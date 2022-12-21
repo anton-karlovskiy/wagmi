@@ -1,4 +1,3 @@
-// ray test touch <
 import {
   useContractRead, 
   Address
@@ -60,4 +59,3 @@ const ApproveButton = ({
 };
 
 export default ApproveButton;
-// ray test touch >
