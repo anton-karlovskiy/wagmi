@@ -1,9 +1,7 @@
 import {
   useAccount,
-  // ray test touch <
   useSendTransaction,
   useWaitForTransaction,
-  // ray test touch >
   usePrepareSendTransaction
 } from 'wagmi';
 import axios from 'axios'; // TODO: use `fetch` API
@@ -61,7 +59,6 @@ const TransferringTokensExample = () => {
   console.log('ray : ***** config => ', config);
   // ray test touch >
 
-  // ray test touch <
   const {
     data,
     sendTransaction
@@ -72,8 +69,7 @@ const TransferringTokensExample = () => {
     isSuccess
   } = useWaitForTransaction({
     hash: data?.hash
-  })
-  // ray test touch >
+  });
 
   if (quoteLoading) return <div>Loading...</div>;
 
@@ -82,7 +78,6 @@ const TransferringTokensExample = () => {
   return (
     <div>
       <div>{quoteFetching ? 'Updating...' : ''}</div>
-      {/* ray test touch < */}
       <button
         disabled={isLoading || !sendTransaction}
         onClick={() => {
@@ -103,7 +98,6 @@ const TransferringTokensExample = () => {
           </div>
         </div>
       )}
-      {/* ray test touch > */}
     </div>
   );
 };
