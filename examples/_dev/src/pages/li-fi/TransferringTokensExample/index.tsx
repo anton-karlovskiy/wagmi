@@ -16,6 +16,10 @@ const FROM_AMOUNT = '10000'; // 0.01 USDC
 
 const LIFI_QUOTE_API_ENDPOINT = 'https://li.quest/v1/quote';
 
+// ray test touch <
+const LIFI_STATUS_API_ENDPOINT = 'https://li.quest/v1/status';
+// ray test touch >
+
 // const BLOCK_EXPLORER_TX_HASH_URL = 'https://blockscout.com/xdai/mainnet/tx';
 const BLOCK_EXPLORER_TX_HASH_URL = 'https://etherscan.io/tx';
 
@@ -45,7 +49,8 @@ const TransferringTokensExample = () => {
           }
         })
         .then((res) => res.data as {
-          transactionRequest: TransactionRequest & { to: string; }
+          tool: string;
+          transactionRequest: TransactionRequest & { to: string; };
         }),
       enabled: !!account.address
   });
@@ -72,9 +77,41 @@ const TransferringTokensExample = () => {
     hash: data?.hash
   });
 
+  // ray test touch <
+  const {
+    // isLoading: statusLoading,
+    isFetching: statusFetching,
+    error: statusError,
+    data: statusData
+  } = useQuery({
+    queryKey: [
+      LIFI_STATUS_API_ENDPOINT,
+      quoteData?.tool,
+      data?.hash
+    ],
+    queryFn: () =>
+      axios
+        .get(LIFI_STATUS_API_ENDPOINT, {
+          params: {
+            bridge: quoteData?.tool,
+            fromChain: FROM_CHAIN,
+            toChain: TO_CHAIN,
+            txHash: data?.hash
+          }
+        })
+        .then((res) => res.data as {
+          status: 'DONE' | 'FAILED'
+        }),
+      enabled: !!(data?.hash) && !!(quoteData?.tool)
+  });
+  console.log('ray : ***** statusData => ', statusData);
+  // ray test touch >
+
   if (quoteLoading) return <div>Loading...</div>;
 
-  if (quoteError) return <div>{'An error has occurred: ' + (quoteError instanceof Error ? quoteError.message : JSON.stringify(quoteError))}</div>;
+  if (quoteError) return <div>{'An error has occurred (quote): ' + (quoteError instanceof Error ? quoteError.message : JSON.stringify(quoteError))}</div>;
+
+  if (statusError) return <div>{'An error has occurred (status): ' + (statusError instanceof Error ? statusError.message : JSON.stringify(statusError))}</div>;
 
   return (
     <div>
@@ -86,6 +123,7 @@ const TransferringTokensExample = () => {
         }}>
         {isLoading ? 'Sending...' : 'Send'}
       </button>
+      {statusFetching === true && <div>Waiting for the status...</div>}
       {isSuccess && (
         <div>
           Successfully sent {FROM_AMOUNT} {FROM_TOKEN} from {FROM_CHAIN} to {TO_CHAIN}.
