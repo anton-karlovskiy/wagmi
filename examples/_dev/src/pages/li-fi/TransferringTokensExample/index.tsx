@@ -2,14 +2,12 @@ import {
   useAccount,
   // ray test touch <
   useSendTransaction,
-  usePrepareSendTransaction
   // ray test touch >
+  usePrepareSendTransaction
 } from 'wagmi';
 import axios from 'axios'; // TODO: use `fetch` API
 import { useQuery } from '@tanstack/react-query';
-// ray test touch <
 import { TransactionRequest } from '@ethersproject/providers';
-// ray test touch >
 
 const FROM_CHAIN = 'DAI';
 const FROM_TOKEN = 'USDC';
@@ -44,21 +42,19 @@ const TransferringTokensExample = () => {
             fromAddress: account.address
           }
         })
-        // ray test touch <
         .then((res) => res.data as {
           transactionRequest: TransactionRequest & { to: string; }
         }),
-        // ray test touch >
       enabled: !!account.address
   });
   // ray test touch <
   console.log('ray : ***** quoteData => ', quoteData);
   // ray test touch >
 
-  // ray test touch <
   const { config } = usePrepareSendTransaction({
     request: quoteData?.transactionRequest
   });
+  // ray test touch <
   console.log('ray : ***** config => ', config);
   // ray test touch >
 
