@@ -91,6 +91,7 @@ const ApproveButton = ({
     if (write === undefined) {
       throw new Error('Something went wrong!');
     }
+    // TODO: call reset functions to remove previous errors
 
     write();
   };
