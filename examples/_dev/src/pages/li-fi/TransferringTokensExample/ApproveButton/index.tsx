@@ -42,8 +42,14 @@ const ApproveButton = ({
     args: [
       ownerAddress,
       spenderAddress
-    ],
+    ]
   });
+  // ray test touch <
+  console.log('ray : ***** allowanceData => ', allowanceData);
+  console.log('ray : ***** tokenAddress => ', tokenAddress);
+  console.log('ray : ***** ownerAddress => ', ownerAddress);
+  console.log('ray : ***** spenderAddress => ', spenderAddress);
+  // ray test touch >
 
   const { config } = usePrepareContractWrite({
     address: tokenAddress,
@@ -77,8 +83,11 @@ const ApproveButton = ({
 
   React.useEffect(() => {
     if (setApprovalRequired === undefined) return;
+    // ray test touch <
+    if (allowanceData === undefined) return;
+    // ray test touch >
     
-    setApprovalRequired(Boolean(allowanceData?.lt(amount)));
+    setApprovalRequired(allowanceData.lt(amount));
   }, [
     txHash,
     setApprovalRequired,
@@ -96,15 +105,19 @@ const ApproveButton = ({
 
   if (allowanceLoading) return <div>Loading...</div>;
 
+  if (allowanceError) return <div>{'An error has occurred (allowance): ' + (allowanceError instanceof Error ? allowanceError.message : JSON.stringify(allowanceError))}</div>;
+
   if (allowanceData === undefined) {
     throw new Error('Something went wrong!');
   }
 
-  if (allowanceError) return <div>{'An error has occurred (allowance): ' + (allowanceError instanceof Error ? allowanceError.message : JSON.stringify(allowanceError))}</div>;
-
   return (
     <div>
       <Button
+        className={clsx(
+          'block',
+          'w-80'
+        )}
         disabled={
           !write ||
           isLoading

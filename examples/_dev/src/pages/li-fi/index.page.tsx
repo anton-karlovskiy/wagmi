@@ -11,16 +11,15 @@ import Button from 'src/components/Button';
 import { useIsMounted } from 'src/hooks';
 
 // LI.FI Use cases
-// - Swap tokens on a single chain
-// - Bridge tokens between different two chains (cross-chain transfer)
-// - Swap tokens between different two chains (cross-chain swap)
+// - Swap tokens on a single chain (feasible in this example)
+// - Bridge tokens between different two chains (cross-chain transfer) (feasible in this example)
+// - Swap tokens between different two chains (cross-chain swap) (feasible in this example)
 
 const LiFi = () => {
   const isMounted = useIsMounted();
 
   const {
     connector,
-    address,
     isConnected
   } = useAccount({
     onConnect: (data) => console.log('[LiFi onConnect] connected data => ', data),
@@ -41,12 +40,10 @@ const LiFi = () => {
       <NetworkSwitcher />
       <div>
         {connector && (
-          <div>Connected to {connector.name}</div>
+          <p>Connected to {connector.name}</p>
         )}
-        {address && (
-          <div>
-            <Button onClick={() => disconnect.disconnect()}>Disconnect</Button>
-          </div>
+        {isConnected && (
+          <Button onClick={() => disconnect.disconnect()}>Disconnect</Button>
         )}
       </div>
       {isConnected && <TransferringTokensExample />}

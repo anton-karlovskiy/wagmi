@@ -1,7 +1,10 @@
 import * as React from 'react';
 import {
   useAccount,
-  Address
+  Address,
+  // ray test touch <
+  useNetwork
+  // ray test touch >
 } from 'wagmi';
 import axios from 'axios'; // TODO: use `fetch` API
 import { useQuery } from '@tanstack/react-query';
@@ -28,13 +31,31 @@ type Status = 'DONE' | 'FAILED' | 'NOT_FOUND';
 const TransferringTokensExample = () => {
   const [sendTxHash, setSendTxHash] = React.useState<string | undefined>(undefined);
 
-  const [approvalRequired, setApprovalRequired] = React.useState<boolean>(false);
+  // ray test touch <
+  const [approvalRequired, setApprovalRequired] = React.useState<boolean>(true);
+  // ray test touch >
 
-  const [statusRefetchInterval, setStatusRefetchInterval] = React.useState(1000)
+  const [statusRefetchInterval, setStatusRefetchInterval] = React.useState(1000);
 
   const account = useAccount();
 
+  const { chain: selectedChain } = useNetwork();
+
   const selectedAccountAddress = account.address;
+
+  // ray test touch <
+  // Initialize the approve status of the from token
+  React.useEffect(() => {
+    if (!selectedAccountAddress) return;
+    if (!selectedChain) return;
+
+    setApprovalRequired(true);
+  }, [
+    selectedAccountAddress,
+    selectedChain
+  ]);
+  console.log('ray : ***** account => ', account);
+  // ray test touch >
 
   if (selectedAccountAddress === undefined) {
     throw new Error('Something went wrong!');
@@ -120,6 +141,10 @@ const TransferringTokensExample = () => {
 
   if (quoteLoading) return <div>Loading...</div>;
 
+  if (quoteError) return <div>{'An error has occurred (quote): ' + (quoteError instanceof Error ? quoteError.message : JSON.stringify(quoteError))}</div>;
+
+  if (statusError) return <div>{'An error has occurred (status): ' + (statusError instanceof Error ? statusError.message : JSON.stringify(statusError))}</div>;
+
   if (quoteData === undefined) {
     throw new Error('Something went wrong!');
   }
@@ -134,32 +159,39 @@ const TransferringTokensExample = () => {
   
   const isFromTokenNativeToken = fromTokenAddress === AddressZero;
 
-  if (quoteError) return <div>{'An error has occurred (quote): ' + (quoteError instanceof Error ? quoteError.message : JSON.stringify(quoteError))}</div>;
-
-  if (statusError) return <div>{'An error has occurred (status): ' + (statusError instanceof Error ? statusError.message : JSON.stringify(statusError))}</div>;
-
   return (
     <div className='space-y-3'>
       <div
         className={clsx(
           'flex',
-          'flex-col',
-          'space-y-2',
-          'max-w-sm'
+          'items-center',
+          'space-x-2'
         )}>
-        {approvalRequired ? (
-          <ApproveButton
-            ownerAddress={selectedAccountAddress}
-            spenderAddress={approvalAddress}
-            tokenAddress={fromTokenAddress}
-            amount={BigNumber.from(FROM_AMOUNT)}
-            disabled={isFromTokenNativeToken}
-            setApprovalRequired={setApprovalRequired} />
-        ) : (
-          <SendButton
-            transactionRequest={quoteData.transactionRequest}
-            setSendTxHash={setSendTxHash} />
-        )}
+        <div className='flex-1'>
+          {approvalRequired ? (
+            <ApproveButton
+              ownerAddress={selectedAccountAddress}
+              spenderAddress={approvalAddress}
+              tokenAddress={fromTokenAddress}
+              amount={BigNumber.from(FROM_AMOUNT)}
+              disabled={isFromTokenNativeToken}
+              setApprovalRequired={setApprovalRequired} />
+          ) : (
+            <SendButton
+              transactionRequest={quoteData.transactionRequest}
+              setSendTxHash={setSendTxHash} />
+          )}
+        </div>
+        {/* ray test touch < */}
+        <div className='flex-1'>
+          <p>
+            Transferring {FROM_AMOUNT} From {FROM_TOKEN} on {FROM_CHAIN} To {TO_TOKEN} on {TO_CHAIN}.
+          </p>
+          <p>
+            Please make sure that your wallet is connected to {FROM_CHAIN} during the process.
+          </p>
+        </div>
+        {/* ray test touch > */}
       </div>
       {(statusData?.status === 'DONE' || statusData?.status === 'FAILED') && (
         <div>

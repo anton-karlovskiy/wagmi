@@ -60,7 +60,10 @@ const SendButton = ({
   return (
     <div>
       <Button
-        className='w-full'
+        className={clsx(
+          'block',
+          'w-80'
+        )}
         disabled={
           isLoading ||
           !sendTransaction
