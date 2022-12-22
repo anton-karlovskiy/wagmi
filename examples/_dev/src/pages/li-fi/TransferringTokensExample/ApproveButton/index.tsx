@@ -106,14 +106,16 @@ const ApproveButton = ({
   // ray test touch >
 
   return (
-    <Button
-      disabled={
-        !write ||
-        isLoading
-      }
-      onClick={handleApprove}
-      {...rest}>
-      {isLoading ? 'Approving...' : 'Approve'}
+    <div>
+      <Button
+        disabled={
+          !write ||
+          isLoading
+        }
+        onClick={handleApprove}
+        {...rest}>
+        {isLoading ? 'Approving...' : 'Approve'}
+      </Button>
       {isSuccess && (
         <div>
           <p>
@@ -127,7 +129,7 @@ const ApproveButton = ({
           </a>
         </div>
       )}
-    </Button>
+    </div>
   );
 };
 

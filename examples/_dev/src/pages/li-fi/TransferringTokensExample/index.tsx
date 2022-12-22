@@ -7,6 +7,9 @@ import axios from 'axios'; // TODO: use `fetch` API
 import { useQuery } from '@tanstack/react-query';
 import { AddressZero } from '@ethersproject/constants';
 import { BigNumber } from '@ethersproject/bignumber';
+// ray test touch <
+import { formatUnits } from '@ethersproject/units';
+// ray test touch >
 import clsx from 'clsx';
 
 import ApproveButton from './ApproveButton';
@@ -67,6 +70,7 @@ const TransferringTokensExample = () => {
           action: {
             fromToken: {
               address: Address;
+              decimals: number;
             };
           };
           estimate: {
@@ -125,6 +129,12 @@ const TransferringTokensExample = () => {
   const fromTokenAddress = quoteData.action.fromToken.address;
   
   const approvalAddress = quoteData.estimate.approvalAddress;
+
+  // ray test touch <
+  const fromTokenDecimals = quoteData.action.fromToken.decimals;
+
+  const displayFromAmount = formatUnits(FROM_AMOUNT, fromTokenDecimals);
+  // ray test touch >
   
   const isFromTokenNativeToken = fromTokenAddress === AddressZero;
 
@@ -155,20 +165,22 @@ const TransferringTokensExample = () => {
             setSendTxHash={setSendTxHash} />
         )}
       </div>
-      <div>{quoteFetching ? 'Updating...' : ''}</div>
-      {statusFetching === true && <div>Waiting for the status...</div>}
-      <div>
-        {statusData?.status === 'DONE' && (
-          <p>
-            Successfully transferred {FROM_AMOUNT} {FROM_TOKEN} from {FROM_CHAIN} to {TO_CHAIN}!
-          </p>
-        )}
-        {statusData?.status === 'FAILED' && (
-          <p>
-            Failed to transfer {FROM_AMOUNT} {FROM_TOKEN} from {FROM_CHAIN} to {TO_CHAIN}!
-          </p>
-        )}
-        {statusData?.status === 'DONE' || statusData?.status === 'FAILED' && (
+      {(statusData?.status === 'DONE' || statusData?.status === 'FAILED') && (
+        <div>
+          {statusData?.status === 'DONE' && (
+            <p>
+              {/* ray test touch < */}
+              Successfully transferred {displayFromAmount} {FROM_TOKEN} from {FROM_CHAIN} to {TO_CHAIN}!
+              {/* ray test touch > */}
+            </p>
+          )}
+          {statusData?.status === 'FAILED' && (
+            <p>
+              {/* ray test touch < */}
+              Failed to transfer {displayFromAmount} {FROM_TOKEN} from {FROM_CHAIN} to {TO_CHAIN}!
+              {/* ray test touch > */}
+            </p>
+          )}
           <a
             className={clsx(
               'underline',
@@ -179,8 +191,10 @@ const TransferringTokensExample = () => {
             href={`${BLOCK_EXPLORER_TX_HASH_URL}/${sendTxHash}`}>
             View on block explorer
           </a>
-        )}
-      </div>
+        </div>
+      )}
+      {statusFetching === true && <p>Waiting for the status data...</p>}
+      {quoteFetching === true && <p>Waiting for the quote data...</p>}
     </div>
   );
 };
