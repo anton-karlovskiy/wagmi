@@ -7,9 +7,7 @@ import axios from 'axios'; // TODO: use `fetch` API
 import { useQuery } from '@tanstack/react-query';
 import { AddressZero } from '@ethersproject/constants';
 import { BigNumber } from '@ethersproject/bignumber';
-// ray test touch <
 import { formatUnits } from '@ethersproject/units';
-// ray test touch >
 import clsx from 'clsx';
 
 import ApproveButton from './ApproveButton';
@@ -130,11 +128,9 @@ const TransferringTokensExample = () => {
   
   const approvalAddress = quoteData.estimate.approvalAddress;
 
-  // ray test touch <
   const fromTokenDecimals = quoteData.action.fromToken.decimals;
 
   const displayFromAmount = formatUnits(FROM_AMOUNT, fromTokenDecimals);
-  // ray test touch >
   
   const isFromTokenNativeToken = fromTokenAddress === AddressZero;
 
@@ -169,16 +165,12 @@ const TransferringTokensExample = () => {
         <div>
           {statusData?.status === 'DONE' && (
             <p>
-              {/* ray test touch < */}
               Successfully transferred {displayFromAmount} {FROM_TOKEN} from {FROM_CHAIN} to {TO_CHAIN}!
-              {/* ray test touch > */}
             </p>
           )}
           {statusData?.status === 'FAILED' && (
             <p>
-              {/* ray test touch < */}
               Failed to transfer {displayFromAmount} {FROM_TOKEN} from {FROM_CHAIN} to {TO_CHAIN}!
-              {/* ray test touch > */}
             </p>
           )}
           <a

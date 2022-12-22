@@ -101,10 +101,6 @@ const ApproveButton = ({
 
   if (allowanceError) return <div>{'An error has occurred (allowance): ' + (allowanceError instanceof Error ? allowanceError.message : JSON.stringify(allowanceError))}</div>;
 
-  // ray test touch <
-  console.log('ray : ***** allowanceData.toString() => ', allowanceData.toString());
-  // ray test touch >
-
   return (
     <div>
       <Button
