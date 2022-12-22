@@ -2,9 +2,7 @@ import * as React from 'react';
 import {
   useAccount,
   Address,
-  // ray test touch <
   useNetwork
-  // ray test touch >
 } from 'wagmi';
 import axios from 'axios'; // TODO: use `fetch` API
 import { useQuery } from '@tanstack/react-query';
@@ -31,9 +29,7 @@ type Status = 'DONE' | 'FAILED' | 'NOT_FOUND';
 const TransferringTokensExample = () => {
   const [sendTxHash, setSendTxHash] = React.useState<string | undefined>(undefined);
 
-  // ray test touch <
   const [approvalRequired, setApprovalRequired] = React.useState<boolean>(true);
-  // ray test touch >
 
   const [statusRefetchInterval, setStatusRefetchInterval] = React.useState(1000);
 
@@ -43,7 +39,6 @@ const TransferringTokensExample = () => {
 
   const selectedAccountAddress = account.address;
 
-  // ray test touch <
   // Initialize the approve status of the from token
   React.useEffect(() => {
     if (!selectedAccountAddress) return;
@@ -54,8 +49,6 @@ const TransferringTokensExample = () => {
     selectedAccountAddress,
     selectedChain
   ]);
-  console.log('ray : ***** account => ', account);
-  // ray test touch >
 
   if (selectedAccountAddress === undefined) {
     throw new Error('Something went wrong!');
@@ -182,7 +175,6 @@ const TransferringTokensExample = () => {
               setSendTxHash={setSendTxHash} />
           )}
         </div>
-        {/* ray test touch < */}
         <div className='flex-1'>
           <p>
             Transferring {FROM_AMOUNT} From {FROM_TOKEN} on {FROM_CHAIN} To {TO_TOKEN} on {TO_CHAIN}.
@@ -191,7 +183,6 @@ const TransferringTokensExample = () => {
             Please make sure that your wallet is connected to {FROM_CHAIN} during the process.
           </p>
         </div>
-        {/* ray test touch > */}
       </div>
       {(statusData?.status === 'DONE' || statusData?.status === 'FAILED') && (
         <div>

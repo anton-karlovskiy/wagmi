@@ -44,12 +44,6 @@ const ApproveButton = ({
       spenderAddress
     ]
   });
-  // ray test touch <
-  console.log('ray : ***** allowanceData => ', allowanceData);
-  console.log('ray : ***** tokenAddress => ', tokenAddress);
-  console.log('ray : ***** ownerAddress => ', ownerAddress);
-  console.log('ray : ***** spenderAddress => ', spenderAddress);
-  // ray test touch >
 
   const { config } = usePrepareContractWrite({
     address: tokenAddress,
@@ -83,9 +77,7 @@ const ApproveButton = ({
 
   React.useEffect(() => {
     if (setApprovalRequired === undefined) return;
-    // ray test touch <
     if (allowanceData === undefined) return;
-    // ray test touch >
     
     setApprovalRequired(allowanceData.lt(amount));
   }, [
