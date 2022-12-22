@@ -5,6 +5,7 @@ import {
   usePrepareSendTransaction,
 } from 'wagmi';
 import { TransactionRequest } from '@ethersproject/providers';
+import clsx from 'clsx';
 
 import Button from 'src/components/Button';
 import { BLOCK_EXPLORER_TX_HASH_URL } from 'src/config/li-fi';
@@ -73,7 +74,10 @@ const SendButton = ({
             Successfully sent!
           </p>
           <a
-            className='underline'
+            className={clsx(
+              'underline',
+              'inline-block'
+            )}
             target='_blank'
             rel='noopener noreferrer'
             href={`${BLOCK_EXPLORER_TX_HASH_URL}/${txHash}`}>

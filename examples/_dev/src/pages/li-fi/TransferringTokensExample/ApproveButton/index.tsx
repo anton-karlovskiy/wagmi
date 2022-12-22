@@ -9,6 +9,7 @@ import {
 import { erc20ABI } from '@wagmi/core';
 import { BigNumber } from '@ethersproject/bignumber';
 import { MaxUint256 } from '@ethersproject/constants';
+import clsx from 'clsx';
 
 import Button, { Props as ButtonProps } from 'src/components/Button';
 import { BLOCK_EXPLORER_TX_HASH_URL } from 'src/config/li-fi';
@@ -118,6 +119,10 @@ const ApproveButton = ({
             Successfully approved!
           </p>
           <a
+            className={clsx(
+              'underline',
+              'inline-block'
+            )}
             target='_blank'
             rel='noopener noreferrer'
             href={`${BLOCK_EXPLORER_TX_HASH_URL}/${txHash}`}>

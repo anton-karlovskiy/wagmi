@@ -176,7 +176,7 @@ const TransferringTokensExample = () => {
           <a
             className={clsx(
               'underline',
-              'block'
+              'inline-block'
             )}
             target='_blank'
             rel='noopener noreferrer'
