@@ -1,7 +1,7 @@
 import { BigNumber } from 'ethers'
 import { useContractWrite, usePrepareContractWrite } from 'wagmi'
 
-import { anvAbi } from './anv-abi'
+import { anvAbi } from '../../abis/anv-abi'
 
 export const WriteContractPrepared = () => {
   const { config } = usePrepareContractWrite({

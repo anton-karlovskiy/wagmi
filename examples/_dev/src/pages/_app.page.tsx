@@ -1,6 +1,5 @@
 import type { AppProps } from 'next/app'
 import NextHead from 'next/head'
-import type { Chain } from 'wagmi'
 import {
   WagmiConfig,
   chain,
@@ -8,38 +7,24 @@ import {
   createClient,
   defaultChains,
 } from 'wagmi'
-
 import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
-
 import { alchemyProvider } from 'wagmi/providers/alchemy'
 import { infuraProvider } from 'wagmi/providers/infura'
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import { publicProvider } from 'wagmi/providers/public'
+import {
+  QueryClient,
+  QueryClientProvider
+} from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
-const avalanche: Chain = {
-  id: 43_114,
-  name: 'Avalanche',
-  network: 'avalanche',
-  nativeCurrency: {
-    decimals: 18,
-    name: 'Avalanche',
-    symbol: 'AVAX',
-  },
-  rpcUrls: {
-    default: 'https://api.avax.network/ext/bc/C/rpc',
-  },
-  multicall: {
-    address: '0xca11bde05977b3631167028862be2a173976ca11',
-    blockCreated: 11907934,
-  },
-  blockExplorers: {
-    default: { name: 'SnowTrace', url: 'https://snowtrace.io' },
-  },
-  testnet: false,
-}
+import { avalanche } from '../config/chains';
+import 'src/styles/globals.css';
+
+const queryClient = new QueryClient();
 
 const { chains, provider, webSocketProvider } = configureChains(
   [...defaultChains, chain.optimism, avalanche],
@@ -103,10 +88,12 @@ const App = ({ Component, pageProps }: AppProps) => {
       <NextHead>
         <title>wagmi</title>
       </NextHead>
-
-      <WagmiConfig client={client}>
-        <Component {...pageProps} />
-      </WagmiConfig>
+      <QueryClientProvider client={queryClient}>
+        <WagmiConfig client={client}>
+          <Component {...pageProps} />
+        </WagmiConfig>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
     </>
   )
 }
